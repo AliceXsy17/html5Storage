@@ -1,0 +1,16 @@
+CACHE MANIFEST
+#version 1.0
+
+CACHE:
+# 需要缓存的文件，将下面那几个文件缓存到浏览器里
+	img/1.jpg
+	img/2.jpeg
+	css/assets.css
+
+NETWORK:
+# 每次重新拉取的文件，这里的*号指的是除了上面那三个文件缓存之外，其余的都要从网络上下载
+	*
+
+FALLBACK:
+# 离线状况下代替的文件
+#	/ offline.html

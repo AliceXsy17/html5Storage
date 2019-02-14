@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8">
+	<title>H5中的图片存储到本地</title>
+</head>
+<body>
+	
+<script type="text/javascript">
+	var src = './abc16.jpeg';
+	// 存储到本地的方法
+	function set(key) {
+		var img = document.createElement('img');
+		// 当图片加载完的时候触发回调函数
+		img.addEventListener("load", function() {
+			var imgCanvas = document.createElement('canvas');
+			imgContext = imgCanvas.getContext('2d');
+			// 确保canvas元素的大小和图片尺寸一致
+			imgCanvas.width = this.width;
+			imgCanvas.height = this.height;
+
+			// 渲染图片到canvas中
+			imgContext.drawImage(this, 0, 0, this.width, this.height);
+
+			// 用data url的形式取出
+			var imgAsDataURL = imgCanvas.toDataURL('image/png');
+
+			// 保存到本地存储中
+			try {
+				localStorage.setItem(key, imgAsDataURL);
+			} catch(e) {
+				console.log('Storage failed:' + e);
+			}
+		}, false);
+		img.src = src;
+	}
+
+	// 从本地缓存获取图片并且渲染
+	function get(key) {
+		var srcStr = localStorage.getItem(key);
+		var imgObj = document.createElement('img');
+		imgObj.src = srcStr;
+		document.body.appendChild(imgObj);
+	}
+
+   set("imgtest");
+
+	/**
+	 * 使用场景：
+	 * 对于一些不怎么更改的图片 或者 希望马上看到图片 都可以使用上面的方法进行存储到本地，
+	 * 图片最终是转为base64来存储的，如果base64比较大的话，就会比较费localStorage的资源了。
+	 */
+</script>
+
+</body>
+</html>

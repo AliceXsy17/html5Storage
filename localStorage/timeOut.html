@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8">
+	<title>H5本地存储 关于业务上的一些过期控制</title>
+</head>
+<body>
+	
+<script type="text/javascript">
+	function set(key, v) {
+		var curTime = new Date().getTime();
+		localStorage.setItem(key, JSON.stringify({data: v, time: curTime}));
+	}
+
+	function get(key, exp) {
+		var data = localStorage.getItem(key);
+		var dataObj = JSON.parse(data);
+		if (new Date().getTime() - dataObj.time > exp) {
+			console.log('expires');
+		} else {
+			console.log('data=' + dataObj.data);
+		}
+	}
+</script>
+
+</body>
+</html>
